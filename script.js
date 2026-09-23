@@ -21,11 +21,23 @@ backBtn.addEventListener('click', () => {
   requestAnimationFrame(() => {
     homeSection.classList.remove('leaving');
   });
+
+
+setTimeout(() => {
+  mapSection.classList.add('hidden');
+},800);
 });
 
 nodes.forEach((node) => {
   node.addEventListener('click', () => {
-    console.log('Navigating to:', node.dataset.page);
+    const page = node.dataset.page;
+
+    if (page === 'home') {
+      backBtn.click();
+      return;
+    }
+
+    window.location.href = page + '.html';
   });
 });
 
