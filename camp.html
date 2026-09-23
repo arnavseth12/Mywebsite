@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arnav Seth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+
+</head>
+
+<body>
+  <section id="home">
+    <img src="images/campsite.png" alt=" Pixel art campsite at sunset with a sign that says Explore Forest">
+    <button id="explore-btn" aria-label="Explore the forest"></button>
+  </section>
+  <section id="map" class="hidden">
+    <button id="back-btn" aria-label="Back to camp"></button>
+
+    <div class="map-stage">
+  <svg class="path-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+    <path d="M 500 780 L 220 550 L 180 250"></path>
+    <path d="M 500 780 L 500 400 L 400 150"></path>
+    <path d="M 500 780 L 620 400 L 620 150"></path>
+    <path d="M 500 780 L 780 550 L 820 250"></path>
+  </svg>
+
+
+      <button class="node" data-page="home" style="left:50%; top: 78%;">
+        <span class="badge">🏕️</span>
+        <span class="label">CAMP</span>
+      </button>
+        <button class="node" data-page="about" style="left:22%; top: 55%;">
+        <span class="badge">⛺</span>
+        <span class="label">ABOUT ME</span>
+      </button>
+          </button>
+        <button class="node" data-page="projects" style="left:18%; top: 25%;">
+        <span class="badge">🗻</span>
+        <span class="label">PROJECTS</span>
+      </button>
+          </button>
+        <button class="node" data-page="achievements" style="left:40%; top: 15%;">
+        <span class="badge">🏆</span>
+        <span class="label">ACHIEVEMENTS</span>
+      </button>
+          </button>
+        <button class="node" data-page="skills" style="left:82%; top: 25%;">
+        <span class="badge">⚒️</span>
+        <span class="label">SKILLS</span>
+      </button>
+          </button>
+        <button class="node" data-page="resume" style="left:82%; top: 25%;">
+        <span class="badge">📄</span>
+        <span class="label">RESUME</span>
+      </button>
+          </button>
+        <button class="node" data-page="contact" style="left:78%; top: 55%;">
+        <span class="badge">✉️</span>
+        <span class="label">CONTACT</span>
+      </button>
+      
+    </div>
+
+
+  <button class="node" data-page="home" style="left:50%; top:78%;">
+
+
+  </section>
+</body>
+</html>

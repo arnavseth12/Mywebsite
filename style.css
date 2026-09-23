@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+#home {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#explore-btn {
+  position: absolute;
+  top: 39%;
+  left: 50%;
+  width: 300px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+#map {
+  position: fixed;
+  inset: 0;
+  background-color: #160f27;
+}
+
+.hidden {
+  display: none;
+}
+
+.map-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.node .badge {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  background: #5c3a21;
+  border: 3px solid #3c2414;
+  border-radius: 8px;
+}
+
+.node .label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #f5ead0;
+  background: #160f27dd;
+  padding: 4px 7px;
+  border-radius: 4px;
+}
+
+.node:hover .badge {
+  box-shadow: 0 0 0 2px #ffcf6b, 0 0 16px 4px rgba(255,207,107,0.5);
+}
+
+#back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #f5ead0;
+  background: #3c2414;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.path-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.path-svg path {
+  fill: none;
+  stroke: #5c3a21;
+  stroke-width: 6;
+  stroke-dasharray: 14 12;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
