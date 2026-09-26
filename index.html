@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!--
+  nice, you found this. email me if you want to work together — arnavseth26@gmail.com
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,108 +9,229 @@
   <title>Arnav Seth</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
-
 <body>
-  <section id="home">
-    <div class="leaf-field" id="leaf-field"></div>
 
+  <div id="crt-on"></div>
+  <div id="boot-screen"><pre id="boot-text"></pre></div>
+  <canvas id="matrix-canvas"></canvas>
+  <div class="scanlines"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="idle-bouncer">█</div>
+  <div id="notif-container"></div>
+
+  <nav id="side-nav">
+    <a href="#home" data-section="home" class="nav-link active">[ 001 ] <span>home</span></a>
+    <a href="#work" data-section="work" class="nav-link">[ 002 ] <span>work</span></a>
+    <a href="#profile" data-section="profile" class="nav-link">[ 003 ] <span>profile</span></a>
+    <a href="#services" data-section="services" class="nav-link">[ 004 ] <span>services</span></a>
+    <a href="#contact" data-section="contact" class="nav-link">[ 005 ] <span>contact</span></a>
+    <a href="resume.pdf" download class="nav-link resume-link">[ ↓ ] <span>resume</span></a>
+  </nav>
+
+  <section id="home" class="section hero-section">
     <div class="hero">
-      <h1 class="hero-name">Arnav Seth</h1>
-      <p class="hero-tagline">
-        <span id="typed-text"></span><span class="cursor">|</span>
-      </p>
-
+      <p class="prompt-line">$ whoami</p>
+      <h1 class="hero-name" data-text="Arnav_Seth">Arnav_Seth</h1>
+      <p class="hero-tagline">&gt; <span id="typed-text"></span><span class="cursor">_</span></p>
       <div class="social-icons">
-        <a href="https://github.com/arnavseth12" target="_blank" rel="noopener" aria-label="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="mailto:you@example.com" aria-label="Email">
-          <i class="fa-solid fa-envelope"></i>
-        </a>
+        <a href="https://github.com/arnavseth12" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="mailto:arnavseth26@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
-
-      <button id="explore-btn">🌲 Explore Forest</button>
+      <div class="code-window">
+        <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">dev.js</span></div>
+        <pre id="code-typer"></pre>
+      </div>
     </div>
+    <a href="#work" class="scroll-cue">[ scroll to continue ]</a>
   </section>
 
-  <section id="map" class="hidden">
-    <button id="back-btn">« Back to camp</button>
-    <h2 class="map-heading">Choose Your Path</h2>
+  <section id="work" class="horizontal-wrap">
+    <div class="horizontal-sticky">
+      <h2 class="section-label">[ 002 ] // WORK</h2>
+      <div class="horizontal-track" id="horizontal-track">
 
-    <div class="map-stage">
-      <span class="deco-tree" style="left:6%; top:8%;">🌲</span>
-      <span class="deco-tree" style="left:94%; top:10%;">🌳</span>
-      <span class="deco-tree" style="left:8%; top:92%;">🌳</span>
-      <span class="deco-tree small" style="left:50%; top:5%;">🌿</span>
-      
-<svg class="path-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-  <path class="trail-edge" d="M 500 780 C 400 700 280 650 220 550"></path>
-  <path class="trail-edge" d="M 500 780 C 300 650 100 450 180 250"></path>
-  <path class="trail-edge" d="M 500 780 C 480 550 250 300 400 150"></path>
-  <path class="trail-edge" d="M 500 780 C 520 550 750 300 620 150"></path>
-  <path class="trail-edge" d="M 500 780 C 700 650 900 450 820 250"></path>
-  <path class="trail-edge" d="M 500 780 C 600 700 720 650 780 550"></path>
-
-  <path class="trail-core" d="M 500 780 C 400 700 280 650 220 550"></path>
-  <path class="trail-core" d="M 500 780 C 300 650 100 450 180 250"></path>
-  <path class="trail-core" d="M 500 780 C 480 550 250 300 400 150"></path>
-  <path class="trail-core" d="M 500 780 C 520 550 750 300 620 150"></path>
-  <path class="trail-core" d="M 500 780 C 700 650 900 450 820 250"></path>
-  <path class="trail-core" d="M 500 780 C 600 700 720 650 780 550"></path>
-</svg>
-
-      <button id="easter-trigger" aria-label="???">🍃</button>
-
-      <div id="game-modal" class="hidden">
-        <div class="game-box">
-          <button id="game-close" aria-label="Close">✕</button>
-          <h2>Firefly Catch</h2>
-          <p id="game-status">Click fireflies before they vanish. 15 seconds</p>
-          <div id="game-arena">
-            <span id="game-score">Score: 0</span>
-            <span id="game-timer">Time: 15</span>
+        <div class="project-card reveal">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_01.exe</span></div>
+              <div class="project-body">
+                <h3>Project Name</h3>
+                <p>One or two sentences on what it does and why you built it.</p>
+                <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+                <div class="project-links">
+                  <a href="#" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="#" target="_blank" rel="noopener">[ source ]</a>
+                </div>
+              </div>
             </div>
-            <button id="game-start">Start</button>
+            <div class="flip-back">
+              <h3>// breakdown</h3>
+              <ul>
+                <li>Stack: HTML / CSS / JS</li>
+                <li>Fun fact: built in a weekend</li>
+                <li>Hardest part: the animation timing</li>
+              </ul>
+            </div>
           </div>
         </div>
 
-      <button class="node" data-page="home" style="left:50%; top:78%;">
-        <span class="badge">🏕️</span>
-        <span class="label">CAMP</span>
-      </button>
-      <button class="node" data-page="about" style="left:22%; top:55%;">
-        <span class="badge">⛺</span>
-        <span class="label">ABOUT ME</span>
-      </button>
-      <button class="node" data-page="projects" style="left:18%; top:25%;">
-        <span class="badge">🗻</span>
-        <span class="label">PROJECTS</span>
-      </button>
-      <button class="node" data-page="achievements" style="left:40%; top:15%;">
-        <span class="badge">🏆</span>
-        <span class="label">ACHIEVEMENTS</span>
-      </button>
-      <button class="node" data-page="services" style="left:62%; top:15%;">
-        <span class="badge">🧰</span>
-        <span class="label">SERVICES</span>
-      </button>
-      <button class="node" data-page="resume" style="left:82%; top:25%;">
-        <span class="badge">📄</span>
-        <span class="label">RESUME</span>
-      </button>
-      <button class="node" data-page="contact" style="left:78%; top:55%;">
-        <span class="badge">✉️</span>
-        <span class="label">CONTACT</span>
-      </button>
+        <div class="project-card reveal">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_02.exe</span></div>
+              <div class="project-body">
+                <h3>Project Name</h3>
+                <p>One or two sentences on what it does and why you built it.</p>
+                <div class="tag-list"><span class="tag">Python</span><span class="tag">API</span></div>
+                <div class="project-links">
+                  <a href="#" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="#" target="_blank" rel="noopener">[ source ]</a>
+                </div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h3>// breakdown</h3>
+              <ul>
+                <li>Stack: Python / REST API</li>
+                <li>Fun fact: started as a class project</li>
+                <li>Hardest part: rate limiting</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_03.exe</span></div>
+              <div class="project-body">
+                <h3>Project Name</h3>
+                <p>One or two sentences on what it does and why you built it.</p>
+                <div class="tag-list"><span class="tag">React</span><span class="tag">Node</span></div>
+                <div class="project-links">
+                  <a href="#" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="#" target="_blank" rel="noopener">[ source ]</a>
+                </div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h3>// breakdown</h3>
+              <ul>
+                <li>Stack: React / Node</li>
+                <li>Fun fact: first full-stack build</li>
+                <li>Hardest part: auth flow</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
+
+  <section id="profile" class="section">
+    <h2 class="section-label">[ 003 ] // PROFILE</h2>
+    <div class="profile-bio"><p>&gt; A short bio about who you are, what you do, and what drives you goes here.</p></div>
+
+    <h3 class="subsection-label">// recognition</h3>
+    <div class="achievements-grid">
+      <div class="achievement-card reveal">
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2024</span><p>What it was and why it mattered.</p>
+      </div>
+      <div class="achievement-card reveal">
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2024</span><p>What it was and why it mattered.</p>
+      </div>
+      <div class="achievement-card reveal">
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2025</span><p>What it was and why it mattered.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-label">// skills</h3>
+    <div class="skills-list">
+      <div class="skill-bar" data-percent="90">
+        <div class="skill-label"><span>JavaScript</span><span class="skill-status">compiling...</span></div>
+        <div class="skill-track"><div class="skill-fill"></div></div>
+      </div>
+      <div class="skill-bar" data-percent="80">
+        <div class="skill-label"><span>HTML / CSS</span><span class="skill-status">compiling...</span></div>
+        <div class="skill-track"><div class="skill-fill"></div></div>
+      </div>
+      <div class="skill-bar" data-percent="70">
+        <div class="skill-label"><span>Python</span><span class="skill-status">compiling...</span></div>
+        <div class="skill-track"><div class="skill-fill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section">
+    <h2 class="section-label">[ 004 ] // SERVICES</h2>
+    <div class="service-item reveal">
+      <span class="service-tag">s // 01</span><h3>Site Building</h3>
+      <p>A full custom website — free to browse and see for yourself before committing to anything.</p>
+      <button class="quote-btn magnetic" data-service="Site Building">[ request_quote ]</button>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-tag">s // 02</span><h3>Brand Redesign</h3>
+      <p>A lot of brands are leaning on AI-generated designs right now — I'll redesign yours by hand so it actually feels distinct.</p>
+      <button class="quote-btn magnetic" data-service="Brand Redesign">[ request_quote ]</button>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <h2 class="section-label">[ 005 ] // CONTACT</h2>
+    <p>&gt; Got a project, a question, or just want to say hi?</p>
+    <p>&gt; EMAIL: arnavseth26@gmail.com</p>
+    <form id="contact-form" class="contact-form">
+      <label for="name">name:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="message">message:</label>
+      <textarea id="message" name="message" rows="6" required></textarea>
+      <button type="submit" id="submit-btn" class="magnetic">[ send_message ]</button>
+      <p id="form-status"></p>
+    </form>
+  </section>
+
+  <button id="term-toggle" class="magnetic">[ terminal ]</button>
+
+  <div id="term-widget" class="hidden">
+    <div class="term-bar-mini">
+      <span class="dot red" id="term-close"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="term-title">guest@arnav-seth:~$</span>
+    </div>
+    <div id="term-output"></div>
+    <div class="term-input-row">
+      <span>&gt;</span>
+      <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="type 'help'">
+    </div>
+  </div>
+
+  <div id="game-modal" class="hidden">
+    <div class="game-box">
+      <button id="game-close">×</button>
+      <h2>// debug_hunt.exe</h2>
+      <p id="game-status">Click the bugs before they escape. 15 seconds.</p>
+      <div id="game-arena">
+        <span id="game-score">score: 0</span>
+        <span id="game-timer">time: 15</span>
+      </div>
+      <button id="game-start" class="magnetic">[ run ]</button>
+    </div>
+  </div>
+
+  <div id="stats-hud">
+    <div>uptime: <span id="stat-uptime">00:00:00</span></div>
+    <div>ping: <span id="stat-ping">12ms</span></div>
+    <div>status: <span class="stat-online">● online</span></div>
+  </div>
+
 </body>
 </html>
