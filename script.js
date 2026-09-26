@@ -404,8 +404,13 @@ const horizontalWrap = document.getElementById('work');
 const horizontalTrack = document.getElementById('horizontal-track');
 const horizontalSticky = document.querySelector('.horizontal-sticky');
 
+function getMaxTranslate() {
+  const sidePad = parseFloat(getComputedStyle(horizontalSticky).paddingLeft) || 0;
+  return horizontalTrack.scrollWidth + sidePad - horizontalSticky.clientWidth;
+}
+
 function setupHorizontalHeight() {
-  const maxTranslate = horizontalTrack.scrollWidth - horizontalSticky.clientWidth;
+  const maxTranslate = getMaxTranslate();
   horizontalWrap.style.height = (window.innerHeight + Math.max(maxTranslate, 0)) + 'px';
 }
 
@@ -415,9 +420,10 @@ function updateHorizontalScroll() {
   const scrollableDistance = wrapHeight - window.innerHeight;
   let progress = scrollableDistance > 0 ? (window.scrollY - wrapTop) / scrollableDistance : 0;
   progress = Math.min(Math.max(progress, 0), 1);
-  const maxTranslate = horizontalTrack.scrollWidth - horizontalSticky.clientWidth;
+  const maxTranslate = getMaxTranslate();
   horizontalTrack.style.transform = `translateX(-${progress * maxTranslate}px)`;
 }
+
 
 setupHorizontalHeight();
 updateHorizontalScroll();
@@ -740,3 +746,11 @@ setInterval(() => {
 setInterval(() => {
   pingEl.textContent = (8 + Math.floor(Math.random() * 12)) + 'ms';
 }, 2000);
+
+document.querySelectorAll('.flip-trigger').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const flipInner = btn.closest('.flip-inner');
+    flipInner.classList.toggle('flipped');
+  });
+});
