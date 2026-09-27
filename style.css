@@ -17,6 +17,21 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 
 @media (hover: none) { html, body { cursor: auto; } }
 
+/* ---------- BOOT SCREEN ---------- */
+#boot-screen {
+  position: fixed; inset: 0; z-index: 200; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; transition: opacity 0.5s ease;
+}
+#boot-screen.hidden { opacity: 0; pointer-events: none; }
+#boot-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(11px, 1.6vw, 15px);
+  color: var(--amber);
+  white-space: pre-wrap;
+  max-width: 600px;
+}
+
 /* ---------- CRT POWER-ON ---------- */
 #crt-on {
   position: fixed; inset: 0; z-index: 300; background: #000;
@@ -31,15 +46,6 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 #crt-on.hide { opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
 @keyframes crtLine { from { width: 0%; } to { width: 100%; } }
 @keyframes crtExpand { from { height: 3px; } to { height: 100vh; } }
-
-/* ---------- BOOT SCREEN ---------- */
-#boot-screen {
-  position: fixed; inset: 0; z-index: 200; background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px; transition: opacity 0.5s ease;
-}
-#boot-screen.hidden { opacity: 0; pointer-events: none; }
-#boot-text { font-size: clamp(11px, 1.6vw, 15px); color: var(--amber); white-space: pre-wrap; max-width: 600px; }
 
 /* ---------- MATRIX CANVAS ---------- */
 #matrix-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.12; transition: opacity 0.6s ease; }
@@ -82,6 +88,101 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 }
 .notif.notif-show { opacity: 1; transform: translateX(0); }
 @media (max-width: 700px) { #notif-container { display: none; } }
+
+/* ---------- SCROLL PROGRESS BAR ---------- */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+  z-index: 55; background: transparent;
+}
+#scroll-progress-fill {
+  height: 100%; width: 0%; background: var(--amber);
+  box-shadow: 0 0 8px var(--amber); transition: width 0.1s linear;
+}
+
+/* ---------- SCANLINE WIPE ON SECTION CHANGE ---------- */
+#wipe-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 6px;
+  background: var(--amber); box-shadow: 0 0 20px 4px var(--amber);
+  z-index: 65; opacity: 0; pointer-events: none;
+}
+#wipe-overlay.wipe-active { animation: wipeDown 0.6s ease-out; }
+@keyframes wipeDown {
+  0% { opacity: 1; top: 0; }
+  100% { opacity: 0; top: 100%; }
+}
+
+/* ---------- CUSTOM CONTEXT MENU ---------- */
+#context-menu {
+  position: fixed; z-index: 96; background: var(--bg-panel);
+  border: 1px solid var(--amber-dim); border-radius: 4px; padding: 6px 0;
+  min-width: 160px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+#context-menu.hidden { display: none; }
+.ctx-item { padding: 8px 14px; font-size: 12px; color: var(--text); cursor: pointer; }
+.ctx-item:hover { background: var(--amber); color: #0a0a0a; }
+
+/* ---------- DEV MODE ---------- */
+#dev-mode-toggle {
+  position: fixed; bottom: 20px; left: 20px; z-index: 40;
+  font-size: 11px; color: var(--text-dim); background: var(--bg-panel);
+  border: 1px solid var(--border); padding: 8px 12px; border-radius: 4px; cursor: pointer;
+}
+#dev-mode-toggle:hover { color: var(--amber); border-color: var(--amber-dim); }
+
+#dev-panel {
+  position: fixed; bottom: 60px; left: 20px; z-index: 40;
+  width: min(85vw, 340px); background: var(--bg-panel);
+  border: 1px solid var(--amber-dim); border-radius: 6px; padding: 16px;
+  font-size: 12px; line-height: 1.7; color: var(--text-dim);
+}
+#dev-panel.hidden { display: none; }
+#dev-panel h4 { color: var(--amber); font-size: 12px; margin-bottom: 8px; }
+
+/* ---------- ASCII CURSOR TRAIL ---------- */
+.ascii-trail {
+  position: fixed; font-size: 12px; color: var(--amber);
+  pointer-events: none; z-index: 89; opacity: 0.8;
+}
+
+/* ---------- COMPILE TOAST (run demo) ---------- */
+.compile-toast {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--bg-panel); border: 1px solid var(--amber-dim); border-radius: 6px;
+  padding: 20px 26px; font-size: 13px; color: var(--amber); z-index: 97;
+  text-align: left; white-space: pre-wrap;
+}
+
+/* ---------- FOOTER ---------- */
+#site-footer {
+  padding: 40px 10vw 40px 14vw;
+  display: flex; flex-wrap: wrap; gap: 20px;
+  font-size: 12px; color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+#site-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
+#site-footer a:hover { color: var(--amber); }
+
+/* ---------- GITHUB CHART / COMMIT TICKER ---------- */
+#github-chart { margin: 10px 0 20px; max-width: 100%; overflow-x: auto; }
+#github-chart img { max-width: 100%; filter: grayscale(0.3); }
+
+.commit-ticker {
+  width: 100%; overflow: hidden; border: 1px solid var(--border);
+  border-radius: 4px; background: var(--bg-panel); padding: 10px 0;
+}
+.commit-ticker-track {
+  display: flex; gap: 40px; width: max-content;
+  animation: tickerScroll 25s linear infinite;
+  font-size: 13px; color: var(--text-dim); white-space: nowrap;
+}
+.commit-ticker-track span { color: var(--amber-dim); }
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- GREETING LINE ---------- */
+#greeting-line { color: var(--text-dim); }
 
 /* ---------- SIDE NAV ---------- */
 #side-nav {
@@ -157,29 +258,6 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 }
 .flip-inner.flipped { transform: rotateY(180deg); }
 
-.flip-trigger {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--amber-dim);
-  color: var(--amber);
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flip-trigger:hover {
-  background: var(--amber);
-  color: #0a0a0a;
-}
-
 .flip-front, .flip-back {
   position: absolute; inset: 0; backface-visibility: hidden;
   background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
@@ -193,6 +271,14 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 .flip-back h3 { color: var(--amber); font-size: 14px; margin-bottom: 10px; }
 .flip-back ul { list-style: none; font-size: 13px; color: var(--text-dim); line-height: 1.8; }
 .flip-back ul li::before { content: '> '; color: var(--amber); }
+
+.flip-trigger {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--amber-dim); color: var(--amber);
+  font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.flip-trigger:hover { background: var(--amber); color: #0a0a0a; }
 
 .term-bar-mini { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #1a1a1a; border-bottom: 1px solid var(--border); }
 .dot { width: 9px; height: 9px; border-radius: 50%; }
@@ -298,6 +384,23 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 #game-start { font-size: 13px; color: var(--amber); background: transparent; border: 1px solid var(--amber-dim); padding: 10px 18px; border-radius: 4px; cursor: pointer; }
 #game-start:hover { background: var(--amber); color: #0a0a0a; }
 
+/* ---------- SNAKE MODAL ---------- */
+#snake-modal {
+  position: fixed; inset: 0; z-index: 80; background: rgba(10,10,10,0.9);
+  align-items: center; justify-content: center; display: none;
+}
+#snake-modal:not(.hidden) { display: flex; }
+.locked-tag { font-size: 10px; color: var(--amber-dim); }
+#snake-canvas { background: var(--bg); border: 1px dashed var(--border); border-radius: 4px; margin: 14px 0; }
+.snake-score { font-size: 13px; color: var(--amber); margin-bottom: 12px; }
+#snake-close { position: absolute; top: 10px; right: 14px; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; }
+
+/* ---------- KONAMI X2 ---------- */
+.konami-flash { animation: konamiFlash 0.4s ease; }
+@keyframes konamiFlash { 0% { filter: brightness(1); } 50% { filter: brightness(2.5) saturate(2); } 100% { filter: brightness(1); } }
+.konami-flash-big { animation: konamiFlashBig 1.2s ease; }
+@keyframes konamiFlashBig { 0% { filter: brightness(1); } 30% { filter: brightness(3.5) saturate(3); } 60% { filter: brightness(1.5); } 100% { filter: brightness(1); } }
+
 /* ---------- STATS HUD ---------- */
 #stats-hud {
   position: fixed; top: 20px; right: 20px; z-index: 30;
@@ -308,6 +411,19 @@ body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: v
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @media (max-width: 700px) { #stats-hud { display: none; } }
 
-/* ---------- KONAMI FLASH ---------- */
-.konami-flash { animation: konamiFlash 0.4s ease; }
-@keyframes konamiFlash { 0% { filter: brightness(1); } 50% { filter: brightness(2.5) saturate(2); } 100% { filter: brightness(1); } }
+/* ---------- PRINT STYLESHEET ---------- */
+@media print {
+  #crt-on, #boot-screen, #matrix-canvas, .scanlines, #cursor-dot, #cursor-ring,
+  #idle-bouncer, #notif-container, #scroll-progress, #wipe-overlay, #context-menu,
+  #dev-mode-toggle, #dev-panel, #side-nav, #term-toggle, #term-widget,
+  #game-modal, #snake-modal, #stats-hud, .scroll-cue {
+    display: none !important;
+  }
+  html, body { cursor: auto; background: #fff; color: #111; }
+  .horizontal-wrap { height: auto !important; }
+  .horizontal-sticky { position: static; height: auto; overflow: visible; padding-left: 0; }
+  .horizontal-track { transform: none !important; flex-wrap: wrap; }
+  .section { min-height: auto; padding: 20px 0; page-break-inside: avoid; }
+  .section-label, .hero-name, .project-body h3, .achievement-card h3 { color: #000; }
+  .project-card, .achievement-card, .service-item { border: 1px solid #ccc; background: #fafafa; }
+}

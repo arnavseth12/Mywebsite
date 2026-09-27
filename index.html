@@ -7,11 +7,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arnav Seth</title>
+  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230a0a0a'/%3E%3Crect x='2' y='11' width='12' height='3' fill='%23ffb000'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XCB5Q969B1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XCB5Q969B1');
+  </script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -24,6 +32,23 @@
   <div id="cursor-ring"></div>
   <div id="idle-bouncer">█</div>
   <div id="notif-container"></div>
+  <div id="scroll-progress"><div id="scroll-progress-fill"></div></div>
+  <div id="wipe-overlay"></div>
+  <div id="context-menu" class="hidden">
+    <div class="ctx-item" data-action="copy-link">[ copy_link ]</div>
+    <div class="ctx-item" data-action="view-source">[ view_source ]</div>
+    <div class="ctx-item" data-action="about">[ about_this_site ]</div>
+  </div>
+
+  <button id="dev-mode-toggle" class="magnetic">[ dev_mode ]</button>
+  <div id="dev-panel" class="hidden">
+    <h4>// developer notes</h4>
+    <p>&gt; cursor: dot snaps instantly, ring lerps 15% per frame toward it</p>
+    <p>&gt; work section: position:sticky + scroll-linked transform, no library</p>
+    <p>&gt; terminal: commands live in one JS object, looked up dynamically by name</p>
+    <p>&gt; matrix rain: canvas 2D, low-opacity black rect painted each frame for trailing fade</p>
+    <p>&gt; flip cards: real 3D transform (rotateY) with backface-visibility hidden</p>
+  </div>
 
   <nav id="side-nav">
     <a href="#home" data-section="home" class="nav-link active">[ 001 ] <span>home</span></a>
@@ -36,7 +61,7 @@
 
   <section id="home" class="section hero-section">
     <div class="hero">
-      <p class="prompt-line">$ whoami</p>
+      <p class="prompt-line">$ whoami <span id="greeting-line"></span></p>
       <h1 class="hero-name" data-text="Arnav_Seth">Arnav_Seth</h1>
       <p class="hero-tagline">&gt; <span id="typed-text"></span><span class="cursor">_</span></p>
       <div class="social-icons">
@@ -63,11 +88,11 @@
               <button class="flip-trigger" aria-label="Show project details">ⓘ</button>
               <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_01.exe</span></div>
               <div class="project-body">
-                <h3>Weather Site</h3>
-                <p>This is a simple weather site that displays the current weather for a given location.</p>
+                <h3>Weather App</h3>
+                <p>A simple weather app that displays the current weather conditions for a given location.</p>
                 <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Weather-app/" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Weather-app/" class="demo-link" data-href="https://arnavseth12.github.io/Weather-app/" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Weather-app" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
@@ -76,9 +101,9 @@
               <button class="flip-trigger" aria-label="Back to project">↩</button>
               <h3>// breakdown</h3>
               <ul>
-                <li>Stack: HTML / CSS / JS / API</li>
+                <li>Stack: HTML / CSS / JS</li>
                 <li>Fun fact: built in a weekend</li>
-                <li>Hardest part: API integration</li>
+                <li>Hardest part: integrating the weather API</li>
               </ul>
             </div>
           </div>
@@ -91,10 +116,10 @@
               <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_02.exe</span></div>
               <div class="project-body">
                 <h3>Password Generator</h3>
-                <p>A simple password generator that creates strong, secure passwords.</p>
-                <div class="tag-list"><span class="tag">JavaScript</span><span class="tag">API</span></div>
+                <p>Generates secure, random passwords based on user-defined criteria.</p>
+                <div class="tag-list"><span class="tag">Python</span><span class="tag">API</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Password-generator/" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Password-generator/" class="demo-link" data-href="https://arnavseth12.github.io/Password-generator/" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Password-generator" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
@@ -103,9 +128,9 @@
               <button class="flip-trigger" aria-label="Back to project">↩</button>
               <h3>// breakdown</h3>
               <ul>
-                <li>Stack: JavaScript </li>
+                <li>Stack: JavaScript</li>
                 <li>Fun fact: started as a class project</li>
-                <li>Hardest part: implementing the password generation algorithm</li>
+                <li>Hardest part: randomization algorithm</li>
               </ul>
             </div>
           </div>
@@ -118,10 +143,10 @@
               <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_03.exe</span></div>
               <div class="project-body">
                 <h3>Pomodoro Timer</h3>
-                <p>A simple Pomodoro Timer to help you stay focused and productive.</p>
+                <p>Helps you stay focused and productive by using the Pomodoro Technique.</p>
                 <div class="tag-list"><span class="tag">React</span><span class="tag">Node</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Podomoro-timer/" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Podomoro-timer/" class="https://arnavseth12.github.io/Podomoro-timer/" data-href="https://example.com" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Podomoro-timer" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
@@ -130,9 +155,9 @@
               <button class="flip-trigger" aria-label="Back to project">↩</button>
               <h3>// breakdown</h3>
               <ul>
-                <li>Stack: Html / Css / JavaScript</li>
-                <li>Fun fact: Built during a coding bootcamp</li>
-                <li>Hardest part: adding the timer functionality</li>
+                <li>Stack: JavaScript</li>
+                <li>Fun fact: first time using React</li>
+                <li>Hardest part: state management</li>
               </ul>
             </div>
           </div>
@@ -144,22 +169,18 @@
 
   <section id="profile" class="section">
     <h2 class="section-label">[ 003 ] // PROFILE</h2>
-    <div class="profile-bio"><p>&gt; I’m Arnav Seth, a student, developer, designer, and creator who loves
-       turning ideas into real projects. I’m especially interested in web development, cybersecurity,
-        robotics, and creative technology. Whether I’m building a website, experimenting
-         with code, or working on a new project, I’m always learning, creating,
-          and finding new ways to make ideas real.</p></div>
+    <div class="profile-bio"><p>&gt; A short bio about who you are, what you do, and what drives you goes here.</p></div>
 
     <h3 class="subsection-label">// recognition</h3>
     <div class="achievements-grid">
       <div class="achievement-card reveal">
-        <span class="achievement-icon">[ ★ ]</span><h3>FLL States</h3><span class="achievement-date">2024</span><p>Me and my team won first place at the regional competition to get into states.</p>
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2024</span><p>What it was and why it mattered.</p>
       </div>
       <div class="achievement-card reveal">
-        <span class="achievement-icon">[ ★ ]</span><h3>Own A Business</h3><span class="achievement-date">2024</span><p>I started my own business and have been successfully running it for a year now.</p>
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2024</span><p>What it was and why it mattered.</p>
       </div>
       <div class="achievement-card reveal">
-        <span class="achievement-icon">[ ★ ]</span><h3>Acedemic</h3><span class="achievement-date">2025</span><p>All A student and am in multiple honor societies and clubs.</p>
+        <span class="achievement-icon">[ ★ ]</span><h3>Achievement Title</h3><span class="achievement-date">2025</span><p>What it was and why it mattered.</p>
       </div>
     </div>
 
@@ -169,7 +190,7 @@
         <div class="skill-label"><span>JavaScript</span><span class="skill-status">compiling...</span></div>
         <div class="skill-track"><div class="skill-fill"></div></div>
       </div>
-      <div class="skill-bar" data-percent="100">
+      <div class="skill-bar" data-percent="80">
         <div class="skill-label"><span>HTML / CSS</span><span class="skill-status">compiling...</span></div>
         <div class="skill-track"><div class="skill-fill"></div></div>
       </div>
@@ -178,6 +199,10 @@
         <div class="skill-track"><div class="skill-fill"></div></div>
       </div>
     </div>
+
+    <h3 class="subsection-label">// github activity</h3>
+    <div id="github-chart"></div>
+    <div id="commit-ticker" class="commit-ticker"><div class="commit-ticker-track" id="commit-ticker-track"></div></div>
   </section>
 
   <section id="services" class="section">
@@ -210,6 +235,12 @@
     </form>
   </section>
 
+  <footer id="site-footer">
+    <span>built with HTML / CSS / JS · forms by Formspree</span>
+    <a href="https://github.com/arnavseth12/Mywebsite" target="_blank" rel="noopener">[ view_source ]</a>
+    <a href="#" id="admin-link">[ admin ]</a>
+  </footer>
+
   <button id="term-toggle" class="magnetic">[ terminal ]</button>
 
   <div id="term-widget" class="hidden">
@@ -237,9 +268,22 @@
     </div>
   </div>
 
+  <div id="snake-modal" class="hidden">
+    <div class="game-box">
+      <button id="snake-close">×</button>
+      <h2>// snake.exe <span class="locked-tag">[secret unlocked]</span></h2>
+      <p id="snake-status">Arrow keys to move. Don't hit yourself or the wall.</p>
+      <canvas id="snake-canvas" width="320" height="320"></canvas>
+      <div class="snake-score">score: <span id="snake-score">0</span></div>
+      <button id="snake-start" class="magnetic">[ run ]</button>
+    </div>
+  </div>
+
   <div id="stats-hud">
     <div>uptime: <span id="stat-uptime">00:00:00</span></div>
     <div>ping: <span id="stat-ping">12ms</span></div>
+    <div>loc: <span id="stat-loc">2,450</span></div>
+    <div>progress: <span id="stat-progress">0%</span></div>
     <div>status: <span class="stat-online">● online</span></div>
   </div>
 
