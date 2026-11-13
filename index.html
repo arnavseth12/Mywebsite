@@ -7,10 +7,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arnav Seth</title>
-  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230a0a0a'/%3E%3Crect x='2' y='11' width='12' height='3' fill='%23ffb000'/%3E%3C/svg%3E">
+  <meta name="description" content="Arnav Seth is a student developer and designer building websites and small tools. Projects, services and contact.">
+  <meta name="theme-color" content="#161513">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Arnav Seth">
+  <meta property="og:description" content="Student developer and designer building websites and small tools.">
+  <meta property="og:type" content="website">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23161513'/%3E%3Crect x='3' y='10' width='10' height='3' fill='%23ffb000'/%3E%3C/svg%3E">
+
+  <script>
+    /* runs before first paint: gates the JS-only styles, skips the boot screen after the first visit, restores saved accent */
+    (function () {
+      var r = document.documentElement;
+      r.classList.add('js');
+      try {
+        if (sessionStorage.getItem('booted')) r.classList.add('skip-boot');
+        var a = localStorage.getItem('accent');
+        if (a) r.style.setProperty('--accent', a);
+      } catch (e) {}
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XCB5Q969B1"></script>
@@ -24,81 +44,93 @@
 </head>
 <body>
 
-  <div id="crt-on"></div>
-  <div id="boot-screen"><pre id="boot-text"></pre></div>
-  <canvas id="matrix-canvas"></canvas>
-  <div class="scanlines"></div>
+  <a href="#work" class="skip-link">skip to work</a>
+
+  <div id="boot-screen"><pre id="boot-text"></pre><span class="boot-skip">press any key to skip</span></div>
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
-  <div id="idle-bouncer">█</div>
-  <div id="notif-container"></div>
+  <div id="idle-bouncer" aria-hidden="true">█</div>
+  <div id="notif-container" aria-live="polite"></div>
   <div id="scroll-progress"><div id="scroll-progress-fill"></div></div>
-  <div id="wipe-overlay"></div>
   <div id="context-menu" class="hidden">
-    <div class="ctx-item" data-action="copy-link">[ copy_link ]</div>
-    <div class="ctx-item" data-action="view-source">[ view_source ]</div>
-    <div class="ctx-item" data-action="about">[ about_this_site ]</div>
+    <div class="ctx-item" data-action="copy-link">copy_link</div>
+    <div class="ctx-item" data-action="view-source">view_source</div>
+    <div class="ctx-item" data-action="about">about_this_site</div>
   </div>
 
-  <button id="dev-mode-toggle" class="magnetic">[ dev_mode ]</button>
+  <button id="dev-mode-toggle" class="float-btn" aria-expanded="false" aria-controls="dev-panel">dev_mode</button>
   <div id="dev-panel" class="hidden">
     <h4>// developer notes</h4>
-    <p>&gt; cursor: dot snaps instantly, ring lerps 15% per frame toward it</p>
+    <p>&gt; cursor: dot snaps instantly, ring eases 15% per frame toward it</p>
     <p>&gt; work section: position:sticky + scroll-linked transform, no library</p>
-    <p>&gt; terminal: commands live in one JS object, looked up dynamically by name</p>
-    <p>&gt; matrix rain: canvas 2D, low-opacity black rect painted each frame for trailing fade</p>
+    <p>&gt; terminal: commands live in one JS object, looked up by name</p>
+    <p>&gt; rain: canvas 2D, a translucent rect painted each frame for the trailing fade</p>
     <p>&gt; flip cards: real 3D transform (rotateY) with backface-visibility hidden</p>
+    <p>&gt; contribution graph: GitHub contribution data drawn as a CSS grid, no image</p>
   </div>
 
-  <nav id="side-nav">
-    <a href="#home" data-section="home" class="nav-link active">[ 001 ] <span>home</span></a>
-    <a href="#work" data-section="work" class="nav-link">[ 002 ] <span>work</span></a>
-    <a href="#profile" data-section="profile" class="nav-link">[ 003 ] <span>profile</span></a>
-    <a href="#services" data-section="services" class="nav-link">[ 004 ] <span>services</span></a>
-    <a href="#contact" data-section="contact" class="nav-link">[ 005 ] <span>contact</span></a>
-    <a href="resume.pdf" download class="nav-link resume-link">[ ↓ ] <span>resume</span></a>
+  <nav id="side-nav" aria-label="Sections">
+    <a href="#home" data-section="home" class="nav-link active"><span class="n">001</span><span class="l">home</span></a>
+    <a href="#work" data-section="work" class="nav-link"><span class="n">002</span><span class="l">work</span></a>
+    <a href="#profile" data-section="profile" class="nav-link"><span class="n">003</span><span class="l">profile</span></a>
+    <a href="#services" data-section="services" class="nav-link"><span class="n">004</span><span class="l">services</span></a>
+    <a href="#contact" data-section="contact" class="nav-link"><span class="n">005</span><span class="l">contact</span></a>
+    <a href="resume.pdf" download class="nav-link resume-link"><span class="n">↓</span><span class="l">resume</span></a>
   </nav>
 
-  <section id="home" class="section hero-section">
-    <div class="hero">
-      <p class="prompt-line">$ whoami <span id="greeting-line"></span></p>
-      <h1 class="hero-name" data-text="Arnav_Seth">Arnav_Seth</h1>
-      <p class="hero-tagline">&gt; <span id="typed-text"></span><span class="cursor">_</span></p>
-      <div class="social-icons">
-        <a href="https://github.com/arnavseth12" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="mailto:arnavseth26@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+  <main>
+  <section id="home" class="hero-section">
+    <div class="hero" id="hero">
+      <div class="hero-copy">
+        <p class="prompt-line">$ whoami <span id="greeting-line"></span></p>
+        <h1 class="hero-name">Arnav Seth</h1>
+        <p class="hero-tagline"><span class="prompt-mark" aria-hidden="true">&gt;</span><span id="typed-text">Student developer and designer building websites and small tools</span><span class="caret" aria-hidden="true"></span></p>
+        <div class="hero-actions">
+          <a href="#work" class="btn btn-primary">[ view_work ]</a>
+          <a href="resume.pdf" download class="btn btn-secondary">[ resume ]</a>
+        </div>
+        <div class="social-icons">
+          <a href="https://github.com/arnavseth12" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="mailto:arnavseth26@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        </div>
       </div>
-      <div class="code-window">
-        <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">dev.js</span></div>
-        <pre id="code-typer"></pre>
+      <div class="code-window" aria-hidden="true">
+        <div class="term-bar-mini"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">dev.js</span></div>
+        <pre id="code-typer">const developer = {
+  name: "Arnav Seth",
+  skills: ["JS", "CSS", "HTML"],
+  passion: true
+};
+
+developer.buildCoolStuff();</pre>
       </div>
     </div>
-    <a href="#work" class="scroll-cue">[ scroll to continue ]</a>
+    <a href="#work" class="scroll-cue">scroll</a>
   </section>
 
-  <section id="work" class="horizontal-wrap">
+  <section id="work" class="horizontal-wrap" aria-labelledby="work-title">
     <div class="horizontal-sticky">
-      <h2 class="section-label">[ 002 ] // WORK</h2>
+      <h2 class="section-label" id="work-title"><span class="idx">002</span>Work</h2>
       <div class="horizontal-track" id="horizontal-track">
 
-        <div class="project-card reveal">
+        <article class="project-card reveal">
           <div class="flip-inner">
             <div class="flip-front">
-              <button class="flip-trigger" aria-label="Show project details">ⓘ</button>
-              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_01.exe</span></div>
+              <button class="flip-trigger" aria-label="Show project details"><i class="fa-solid fa-circle-info"></i></button>
+              <div class="term-bar-mini"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">project_01.exe</span></div>
               <div class="project-body">
                 <h3>Weather App</h3>
                 <p>A simple weather app that displays the current weather conditions for a given location.</p>
                 <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Weather-app/" class="demo-link" data-href="https://arnavseth12.github.io/Weather-app/" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Weather-app/" class="demo-link" data-name="weather-app" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Weather-app" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
             </div>
             <div class="flip-back">
-              <button class="flip-trigger" aria-label="Back to project">↩</button>
+              <button class="flip-trigger" aria-label="Back to project"><i class="fa-solid fa-rotate-left"></i></button>
               <h3>// breakdown</h3>
               <ul>
                 <li>Stack: HTML / CSS / JS</li>
@@ -107,25 +139,25 @@
               </ul>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="project-card reveal">
+        <article class="project-card reveal">
           <div class="flip-inner">
             <div class="flip-front">
-              <button class="flip-trigger" aria-label="Show project details">ⓘ</button>
-              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_02.exe</span></div>
+              <button class="flip-trigger" aria-label="Show project details"><i class="fa-solid fa-circle-info"></i></button>
+              <div class="term-bar-mini"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">project_02.exe</span></div>
               <div class="project-body">
                 <h3>Password Generator</h3>
                 <p>Generates secure, random passwords based on user-defined criteria.</p>
-                <div class="tag-list"><span class="tag">Python</span><span class="tag">API</span></div>
+                <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Password-generator/" class="demo-link" data-href="https://arnavseth12.github.io/Password-generator/" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Password-generator/" class="demo-link" data-name="password-generator" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Password-generator" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
             </div>
             <div class="flip-back">
-              <button class="flip-trigger" aria-label="Back to project">↩</button>
+              <button class="flip-trigger" aria-label="Back to project"><i class="fa-solid fa-rotate-left"></i></button>
               <h3>// breakdown</h3>
               <ul>
                 <li>Stack: JavaScript</li>
@@ -134,25 +166,25 @@
               </ul>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="project-card reveal">
+        <article class="project-card reveal">
           <div class="flip-inner">
             <div class="flip-front">
-              <button class="flip-trigger" aria-label="Show project details">ⓘ</button>
-              <div class="term-bar-mini"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="term-title">project_03.exe</span></div>
+              <button class="flip-trigger" aria-label="Show project details"><i class="fa-solid fa-circle-info"></i></button>
+              <div class="term-bar-mini"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">project_03.exe</span></div>
               <div class="project-body">
                 <h3>Pomodoro Timer</h3>
                 <p>Helps you stay focused and productive by using the Pomodoro Technique.</p>
-                <div class="tag-list"><span class="tag">React</span><span class="tag">Node</span></div>
+                <div class="tag-list"><span class="tag">React</span><span class="tag">JS</span></div>
                 <div class="project-links">
-                  <a href="https://arnavseth12.github.io/Podomoro-timer/" class="https://arnavseth12.github.io/Podomoro-timer/" data-href="https://example.com" target="_blank" rel="noopener">[ live_demo ]</a>
+                  <a href="https://arnavseth12.github.io/Podomoro-timer/" class="demo-link" data-name="pomodoro-timer" target="_blank" rel="noopener">[ live_demo ]</a>
                   <a href="https://github.com/arnavseth12/Podomoro-timer" target="_blank" rel="noopener">[ source ]</a>
                 </div>
               </div>
             </div>
             <div class="flip-back">
-              <button class="flip-trigger" aria-label="Back to project">↩</button>
+              <button class="flip-trigger" aria-label="Back to project"><i class="fa-solid fa-rotate-left"></i></button>
               <h3>// breakdown</h3>
               <ul>
                 <li>Stack: JavaScript</li>
@@ -161,20 +193,23 @@
               </ul>
             </div>
           </div>
-        </div>
+        </article>
 
       </div>
     </div>
   </section>
 
-  <section id="profile" class="section">
-    <h2 class="section-label">[ 003 ] // PROFILE</h2>
-    <div class="profile-bio"><p>&gt; I’m Arnav Seth, a student, developer, designer, and creator who loves turning ideas into real projects. I’m especially interested in web development, cybersecurity, robotics, and creative technology. Whether I’m building a website, experimenting with code, or working on a new project, I’m always learning, creating, and finding new ways to make ideas real.</p></div>
+  <section id="profile" class="section" aria-labelledby="profile-title">
+    <h2 class="section-label" id="profile-title"><span class="idx">003</span>Profile</h2>
+    <div class="profile-bio"><p>I’m Arnav Seth, a student, developer, designer, and creator who loves turning ideas into real projects. I’m especially interested in web development, cybersecurity, robotics, and creative technology. Whether I’m building a website, experimenting with code, or working on a new project, I’m always learning, creating, and finding new ways to make ideas real.</p></div>
 
     <h3 class="subsection-label">// recognition</h3>
     <div class="achievements-grid">
-      <div class="achievement-card reveal">
-        <span class="achievement-icon">[ ★ ]</span><h3>Fll State's</h3><span class="achievement-date">2024</span><p>Moved onto fll states</p>
+      <div class="achievement-card card reveal">
+        <span class="achievement-icon"><i class="fa-solid fa-trophy"></i></span>
+        <h3>FLL State Tournament</h3>
+        <span class="achievement-date">2024</span>
+        <p>Advanced to the state tournament.</p>
       </div>
     </div>
 
@@ -195,39 +230,59 @@
     </div>
 
     <h3 class="subsection-label">// github activity</h3>
-    <div id="github-chart"></div>
-    <div id="commit-ticker" class="commit-ticker"><div class="commit-ticker-track" id="commit-ticker-track"></div></div>
+    <div class="gh-card card">
+      <div class="gh-summary">
+        <span id="gh-total">loading contributions...</span>
+        <span class="gh-legend" aria-hidden="true">less
+          <span class="gh-cell" data-l="0"></span><span class="gh-cell" data-l="1"></span><span class="gh-cell" data-l="2"></span><span class="gh-cell" data-l="3"></span><span class="gh-cell" data-l="4"></span>
+          more</span>
+      </div>
+      <div id="github-chart"></div>
+    </div>
+    <div class="repo-list" id="repo-list"></div>
   </section>
 
-  <section id="services" class="section">
-    <h2 class="section-label">[ 004 ] // SERVICES</h2>
-    <div class="service-item reveal">
-      <span class="service-tag">s // 01</span><h3>Site Building</h3>
-      <p>A full custom website — free to browse and see for yourself before committing to anything.</p>
-      <button class="quote-btn magnetic" data-service="Site Building">[ request_quote ]</button>
-    </div>
-    <div class="service-item reveal">
-      <span class="service-tag">s // 02</span><h3>Brand Redesign</h3>
-      <p>A lot of brands are leaning on AI-generated designs right now — I'll redesign yours by hand so it actually feels distinct.</p>
-      <button class="quote-btn magnetic" data-service="Brand Redesign">[ request_quote ]</button>
+  <section id="services" class="section" aria-labelledby="services-title">
+    <h2 class="section-label" id="services-title"><span class="idx">004</span>Services</h2>
+    <div class="services-grid">
+      <div class="service-item card reveal">
+        <span class="service-tag">s // 01</span><h3>Site Building</h3>
+        <p>A full custom website — free to browse and see for yourself before committing to anything.</p>
+        <button class="quote-btn btn btn-secondary btn-small" data-service="Site Building">[ request_quote ]</button>
+      </div>
+      <div class="service-item card reveal">
+        <span class="service-tag">s // 02</span><h3>Brand Redesign</h3>
+        <p>A lot of brands are leaning on AI-generated designs right now — I'll redesign yours by hand so it actually feels distinct.</p>
+        <button class="quote-btn btn btn-secondary btn-small" data-service="Brand Redesign">[ request_quote ]</button>
+      </div>
     </div>
   </section>
 
-  <section id="contact" class="section">
-    <h2 class="section-label">[ 005 ] // CONTACT</h2>
-    <p>&gt; Got a project, a question, or just want to say hi?</p>
-    <p>&gt; EMAIL: arnavseth26@gmail.com</p>
+  <section id="contact" class="section" aria-labelledby="contact-title">
+    <h2 class="section-label" id="contact-title"><span class="idx">005</span>Contact</h2>
+    <div class="contact-lines">
+      <p><span class="mono">&gt;</span>Got a project, a question, or just want to say hi?</p>
+      <p><span class="mono">&gt;</span>Email <a href="mailto:arnavseth26@gmail.com">arnavseth26@gmail.com</a></p>
+    </div>
     <form id="contact-form" class="contact-form">
-      <label for="name">name:</label>
-      <input type="text" id="name" name="name" required>
-      <label for="email">email:</label>
-      <input type="email" id="email" name="email" required>
-      <label for="message">message:</label>
-      <textarea id="message" name="message" rows="6" required></textarea>
-      <button type="submit" id="submit-btn" class="magnetic">[ send_message ]</button>
-      <p id="form-status"></p>
+      <div class="field">
+        <label for="name">name</label>
+        <input type="text" id="name" name="name" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="email">email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="message">message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" id="submit-btn" class="btn btn-primary">[ send_message ]</button>
+      <p id="form-status" role="status"></p>
     </form>
   </section>
+  </main>
 
   <footer id="site-footer">
     <span>built with HTML / CSS / JS · forms by Formspree</span>
@@ -235,50 +290,48 @@
     <a href="#" id="admin-link">[ admin ]</a>
   </footer>
 
-  <button id="term-toggle" class="magnetic">[ terminal ]</button>
+  <button id="term-toggle" class="float-btn" aria-expanded="false" aria-controls="term-widget">terminal <kbd>`</kbd></button>
 
-  <div id="term-widget" class="hidden">
+  <div id="term-widget" class="hidden" role="dialog" aria-label="Terminal">
     <div class="term-bar-mini">
-      <span class="dot red" id="term-close"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="dot" id="term-close" title="close"></span><span class="dot"></span><span class="dot"></span>
       <span class="term-title">guest@arnav-seth:~$</span>
     </div>
     <div id="term-output"></div>
     <div class="term-input-row">
       <span>&gt;</span>
-      <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="type 'help'">
+      <input type="text" id="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type 'help'" aria-label="Terminal command">
     </div>
   </div>
 
-  <div id="game-modal" class="hidden">
+  <div id="game-modal" class="modal hidden" role="dialog" aria-label="debug_hunt game">
     <div class="game-box">
-      <button id="game-close">×</button>
+      <button id="game-close" class="modal-close" aria-label="Close">×</button>
       <h2>// debug_hunt.exe</h2>
       <p id="game-status">Click the bugs before they escape. 15 seconds.</p>
       <div id="game-arena">
         <span id="game-score">score: 0</span>
         <span id="game-timer">time: 15</span>
       </div>
-      <button id="game-start" class="magnetic">[ run ]</button>
+      <button id="game-start" class="btn btn-secondary">[ run ]</button>
     </div>
   </div>
 
-  <div id="snake-modal" class="hidden">
+  <div id="snake-modal" class="modal hidden" role="dialog" aria-label="snake game">
     <div class="game-box">
-      <button id="snake-close">×</button>
-      <h2>// snake.exe <span class="locked-tag">[secret unlocked]</span></h2>
+      <button id="snake-close" class="modal-close" aria-label="Close">×</button>
+      <h2>// snake.exe<span class="locked-tag">secret unlocked</span></h2>
       <p id="snake-status">Arrow keys to move. Don't hit yourself or the wall.</p>
       <canvas id="snake-canvas" width="320" height="320"></canvas>
       <div class="snake-score">score: <span id="snake-score">0</span></div>
-      <button id="snake-start" class="magnetic">[ run ]</button>
+      <button id="snake-start" class="btn btn-secondary">[ run ]</button>
     </div>
   </div>
 
-  <div id="stats-hud">
-    <div>uptime: <span id="stat-uptime">00:00:00</span></div>
-    <div>ping: <span id="stat-ping">12ms</span></div>
-    <div>loc: <span id="stat-loc">2,450</span></div>
-    <div>progress: <span id="stat-progress">0%</span></div>
-    <div>status: <span class="stat-online">● online</span></div>
+  <div id="stats-hud" aria-hidden="true">
+    <div>time on page <b id="stat-uptime">00:00:00</b></div>
+    <div>scrolled <b id="stat-progress">0%</b></div>
+    <div class="stat-online">available</div>
   </div>
 
 </body>
